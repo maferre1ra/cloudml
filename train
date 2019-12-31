@@ -9,3 +9,13 @@ cloudml_train("walking_cloudml.R", master_type = "standard_p100")
 
 #Train on an NVIDIA V100 GPUs
 cloudml_train("walking_cloudml.R", master_type = "complex_model_l_v100")
+
+export_savedmodel(model, "savedmodel")
+cloudml_deploy("savedmodel", name = "keras_mnist")
+
+cloudml_predict(
+list(
+  as.vector(t(mnist_image))
+),
+name = "keras_mnist",
+)
